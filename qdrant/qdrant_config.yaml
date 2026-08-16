@@ -1,0 +1,27 @@
+# qdrant_config.yaml - Configuración producción Qdrant para Apache ISPConfig
+# NOTA: memmap_threshold, indexing_threshold y full_scan_threshold OMITIDOS
+#       Qdrant v1.11 los define internamente — redefinirlos causa "duplicate field" fatal
+
+storage:
+  storage_path: /qdrant/storage
+  snapshots_path: /qdrant/storage/snapshots
+  optimizers:
+    default_segment_number: 2
+    flush_interval_sec: 30
+  hnsw_index:
+    m: 16
+    ef_construct: 100
+  performance:
+    max_search_threads: 2
+    max_optimization_threads: 1
+
+service:
+  http_port: 6333
+  grpc_port: 6334
+  enable_cors: false
+  enable_tls: false
+
+cluster:
+  enabled: false
+
+log_level: INFO

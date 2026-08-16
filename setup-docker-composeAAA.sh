@@ -1,0 +1,36 @@
+sudo bash -c 'cat > /opt/abogadogratis/.gitignore << "EOF"
+# Python & Virtualenv
+venv/
+pyvenv.cfg
+__pycache__/
+*.py[cod]
+*.so
+.env
+
+# Node & Frontend Build
+node_modules/
+.next/
+out/
+build/
+dist/
+
+# Archivos temporales y de backup
+*_1.sh
+*_1_1.sh
+*_2.sh
+*_2_1.sh
+*_3.sh
+*.bak
+INSTRUCCIONES_*.md
+LEEME_*.txt
+Makefile_*
+README_*.md
+README.prod_*.md
+
+# Logs y bases de datos locales
+*.log
+tmp/
+qdrant_data/
+redis_data/
+EOF
+'

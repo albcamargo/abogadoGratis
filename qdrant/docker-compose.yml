@@ -1,0 +1,77 @@
+# docker-compose.yml - Abogado Gratis - Qdrant con volumen persistente + healthcheck
+# Ubuntu 24.04 + ISPConfig + Apache + abogadogratis.corefex.net
+# Ubicación: /opt/qdrant/docker-compose.yml
+# Uso: cd /opt/qdrant && docker compose up -d
+
+services:
+  qdrant:
+    image: qdrant/qdrant:v1.11.3
+    container_name: abogadogratis-qdrant
+    restart: unless-stopped
+
+    # Seguridad ISPConfig: solo localhost, Apache hace ProxyPass a FastAPI que consulta Qdrant
+    ports:
+      - "127.0.0.1:6333:6333" # REST API
+      - "127.0.0.1:6334:6334" # gRPC (opcional, para performance futura)
+
+    # Volumen persistente - CRÍTICO para que embeddings no se pierdan al reiniciar
+    volumes:
+      - qdrant_storage:/qdrant/storage
+      - ./qdrant_config.yaml:/qdrant/config/production.yaml:ro
+      # Logs persistentes para debug ISPConfig
+      - /var/log/abogadogratis:/var/log/abogadogratis
+
+    # Solo log level - todo lo demás viene de qdrant_config.yaml (evita duplicate field en v1.11)
+    environment:
+      - QDRANT__LOG_LEVEL=INFO
+
+    # Healthcheck - Apache ISPConfig necesita saber si Qdrant está vivo
+    # FastAPI /api/health consulta esto
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c ': > /dev/tcp/127.0.0.1/6333' || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+      start_interval: 5s
+
+    # Recursos para no matar Apache/MariaDB en mismo VPS
+    deploy:
+      resources:
+        limits:
+          cpus: '1.5'
+          memory: 1.5G
+        reservations:
+          cpus: '1'
+          memory: 1G
+
+    # Logging con rotación para no llenar disco ISPConfig
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+        labels: "abogadogratis,qdrant"
+
+    networks:
+      - abogadogratis-network
+  # Opcional: qdrant-dashboard para debug (solo localhost)
+  # Accede via ssh tunnel: ssh -L 6333:127.0.0.1:6333 tu-vps
+  # No exponer a internet, ISPConfig Apache ya protege
+
+networks:
+  abogadogratis-network:
+    name: abogadogratis-network
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+volumes:
+  qdrant_storage:
+    name: abogadogratis-qdrant-storage
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/qdrant_storage

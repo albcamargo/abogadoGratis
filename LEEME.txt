@@ -1,0 +1,37 @@
+ABOGADO GRATIS - ZIP PROD COMPLETO
+Dominio: abogadogratis.corefex.net
+Contenido: Todo lo necesario para install-prod.sh en 1 comando - 12 pasos
+
+INSTRUCCIONES RÁPIDAS:
+1. Sube abogadogratis-prod-package.zip a tu VPS /tmp/
+2. Descomprime en /opt para generar /opt/abogadogratis/:
+   sudo apt install -y unzip
+   sudo mkdir -p /opt
+   sudo unzip -o /tmp/abogadogratis-prod-package.zip -d /opt/
+   # Esto crea /opt/abogadogratis/ (si crea /opt/abogadogratis-prod-package, renombra: sudo mv /opt/abogadogratis-prod-package /opt/abogadogratis)
+   sudo chown -R root:root /opt/abogadogratis
+   sudo chmod +x /opt/abogadogratis/install-prod.sh /opt/abogadogratis/deploy.sh /opt/abogadogratis/qdrant/backup-cron.sh
+3. Crea Website y Database en ISPConfig (ver INSTRUCCIONES.md)
+4. Ejecuta:
+   cd /opt/abogadogratis
+   sudo ./install-prod.sh
+
+Estructura /opt/abogadogratis/ después de descomprimir:
+- install-prod.sh (12 pasos)
+- deploy.sh (6 pasos Apache)
+- Makefile (prod-up, prod-backup, prod-logs, deploy, seed, health)
+- README.prod.md + README.md
+- api/main.py (2.0.0-rag-real-apache query_points 384d)
+- api/redis_cache.py
+- api/seed-corpus.py (20 leyes)
+- api/requirements.txt
+- api/.env.example
+- frontend/app/globals.css (print premium A4 membrete+firma+QR)
+- frontend/package.json.example + next.config.js.example
+- qdrant/docker-compose.prod.yml (Qdrant+Redis+Backup cron)
+- qdrant/docker-compose.yml
+- qdrant/qdrant_config.yaml
+- qdrant/redis.conf
+- qdrant/backup-cron.sh
+- INSTRUCCIONES.md detalladas
+- scripts/descomprimir.sh
