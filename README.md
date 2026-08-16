@@ -7,6 +7,20 @@
 **Licencia:** Tecnología cívica CC BY 4.0 - Inspirado en Vía Libre & Data Uruguay  
 
 ---
+**** Preguntas
+
+Qué debo hacer en caso de despido sin justa causa?
+Qué  indemnizaciones recibe una mujer embarazada que es despedida?
+Terminación de contrato de arriendo, desalojo y preaviso (3 meses)
+Como impugno una fotomultas?
+Cuál es el Incremento anual del arriendo (límite del IPC)
+Cuota alimentaria, embargo y delito de inasistencia alimentaria
+Garantía legal, reparación y devolución por productos defectuosos
+Derecho de Retracto en compras por internet/distancia (5 días hábiles)
+Derecho de Petición (15 días) y Acción de Tutela (10 días)
+Divorcio express (Notaría) / judicial y liquidación de sociedad conyugal
+Caducidad de comparendos, prescripción de multas e 
+Liquidación de prestaciones sociales (Cesantías, Intereses, Prima, Vacaciones)
 
 ## 📋 Checklist Completo Apache ISPConfig (Sincronizado con tus artefactos actuales)
 
